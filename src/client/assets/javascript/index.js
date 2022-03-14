@@ -5,21 +5,28 @@
 
 // The store will hold all information needed globally
 var store = {
-  track_id: undefined,
-  player_id: undefined,
+  track_id: undefined, // updated onclick track card
+  player_id: undefined, // updated onclick racer card
   race_id: undefined,
 };
 
 // We need our javascript to wait until the DOM is loaded
+// gets only loaded when button "start my race" is clicked
+// it links to race.html
+// THIS script is NOT linked to home.html
 document.addEventListener("DOMContentLoaded", function () {
   onPageLoad();
   setupClickHandlers();
 });
 
 async function onPageLoad() {
+  // on "DOMContentLoaded"
   try {
     getTracks().then((tracks) => {
       // getTracks makes API call
+      console.log("hello from onPageLoad getTracks");
+      // onclick button "start my race"
+      console.log(tracks); // array of track objects
       const html = renderTrackCards(tracks); // function that returns html
       renderAt("#tracks", html); // where we render that html
     });
@@ -30,6 +37,9 @@ async function onPageLoad() {
 
     getRacers().then((racers) => {
       // getRacers makes API call
+      console.log("hello from onPageLoad getRacers");
+      // onclick button "start my race"
+      console.log(racers); // array of racer objects
       const html = renderRacerCars(racers);
       renderAt("#racers", html);
     });
@@ -39,31 +49,45 @@ async function onPageLoad() {
   }
 }
 
+// ------ seems to work so far -----
+
 function setupClickHandlers() {
+  // on "DOMContentLoaded"
   document.addEventListener(
-    "click",
+    "click", // DOES NOT WORK PROPERLY
     function (event) {
       const { target } = event;
 
       // Race track form field
+      // click on track card
+      // DOES SOMETIMES WORK, LESS OFTEN THAN RACER
       if (target.matches(".card.track")) {
+        console.log("hello from clicked track card");
         handleSelectTrack(target);
       }
 
       // Podracer form field
+      // click on racer card
+      // DOES SOMETIMES WORK
       if (target.matches(".card.podracer")) {
+        console.log("hello from clicked racer card");
         handleSelectPodRacer(target);
       }
 
       // Submit create race form
+      // click button "start race"
+      // DOES ALWAYS WORK
       if (target.matches("#submit-create-race")) {
         event.preventDefault();
-
+        console.log(
+          "hello from clicked start race button - handleCreateRace is now triggered"
+        );
         // start race
         handleCreateRace();
       }
 
       // Handle acceleration click
+      // click what ?? which page?
       if (target.matches("#gas-peddle")) {
         handleAccelerate();
       }
@@ -73,6 +97,7 @@ function setupClickHandlers() {
 }
 
 async function delay(ms) {
+  // where called?
   try {
     return await new Promise((resolve) => setTimeout(resolve, ms));
   } catch (error) {
@@ -82,7 +107,9 @@ async function delay(ms) {
 }
 // ^ PROVIDED CODE ^ DO NOT REMOVE
 
-// This async function controls the flow of the race, add the logic and error handling
+// This async function controls the flow of the race,
+// add the logic and error handling
+
 async function handleCreateRace() {
   // render starting UI
   renderAt("#race", renderRaceStartView());
@@ -109,14 +136,14 @@ async function handleCreateRace() {
   // DONE: Get player_id and track_id from the store ???
   let playerID = store.player_id;
   let trackID = store.track_id;
-  // var store = {
+  // var store = { // updated onclick cards
   //   track_id: undefined,
   //   player_id: undefined,
   //   race_id: undefined,
   // };
 
   // DONE: invoke the API call to create the race, then save the result
-  const race = await createRace(playerID, trackID); // undefined ??
+  const race = await createRace(playerID, trackID);
 
   // TODO - update the store with the race id ????
   store.race_id = 1;
@@ -138,7 +165,12 @@ function runRace(raceID) {
     // TODO - use Javascript's built in setInterval method
     // to get race info every 500ms
     // getRace oder getRace ? UND evtl await return in fun getRace??
-    const raceInterval = setInterval(getRace(), 500, raceID);
+
+    const raceInterval = setInterval(resolve, 500, getRace(raceID));
+
+    // function getRace(id) { // info about a single race
+    //   return fetch(`${SERVER}/api/races/${id}`);}
+    // FETCH RETURNS A PROMISE
 
     // TODO - if the race info status property is "in-progress",
     // update the leaderboard by calling:
@@ -178,8 +210,7 @@ async function runCountdown() {
 }
 
 function handleSelectPodRacer(target) {
-  console.log("selected a pod", target.id);
-
+  console.log("selected a pod with ID: ", target.id);
   // remove class selected from all racer options
   const selected = document.querySelector("#racers .selected");
   if (selected) {
@@ -189,11 +220,13 @@ function handleSelectPodRacer(target) {
   // add class selected to current target
   target.classList.add("selected");
 
-  // TODO - save the selected racer to the store
+  // DONE: save the selected racer to the store
+  store.player_id = target.id;
+  // console.log("store", store); // works!!
 }
 
 function handleSelectTrack(target) {
-  console.log("selected a track", target.id);
+  console.log("selected a track with ID: ", target.id);
 
   // remove class selected from all track options
   const selected = document.querySelector("#tracks .selected");
@@ -204,7 +237,9 @@ function handleSelectTrack(target) {
   // add class selected to current target
   target.classList.add("selected");
 
-  // TODO - save the selected track id to the store
+  // DONE: save the selected track id to the store
+  store.track_id = target.id;
+  console.log(store);
 }
 
 function handleAccelerate() {
@@ -362,17 +397,24 @@ function defaultFetchOpts() {
 
 // DONE: Make a fetch call (with error handling!) to each of the following API endpoints
 // fetch => asynchronous http call -- GET = default
+// fetch returns a promise
 
 // will be called in async function onPageLoad
 function getTracks() {
   // GET request to `${SERVER}/api/tracks`
-  return fetch(`${SERVER}/api/tracks`); // list of all tracks
+  console.log("hello from getTracks API call"); // onclick button "start my race"
+  return fetch(`${SERVER}/api/tracks`) // list of all tracks
+    .then((response) => response.json())
+    .catch((e) => console.log("error in API call getTracks: ", e));
 }
 
 // will be called in async function onPageLoad
 function getRacers() {
   // GET request to `${SERVER}/api/cars`
-  return fetch(`${SERVER}/api/cars`); // list of all cars
+  console.log("hello from getRacers API call"); // onclick button "start my race"
+  return fetch(`${SERVER}/api/cars`) // list of all cars
+    .then((response) => response.json())
+    .catch((e) => console.log("error in API call getRacers: ", e));
 }
 
 function createRace(player_id, track_id) {
@@ -394,7 +436,9 @@ function getRace(id) {
   // WHERE is this function called?
   // inside function runRace(raceID)
   // GET request to `${SERVER}/api/races/${id}`
-  return fetch(`${SERVER}/api/races/${id}`); // info about a single race
+  return fetch(`${SERVER}/api/races/${id}`) // info about a single race
+    .then((response) => response.json())
+    .catch((e) => console.log("error in API call getRace: ", e));
 }
 
 function startRace(id) {
@@ -404,14 +448,16 @@ function startRace(id) {
     ...defaultFetchOpts(),
   })
     .then((res) => res.json())
-    .catch((err) => console.log("Problem with getRace request::", err));
+    .catch((err) => console.log("Problem with startRace request::", err));
 }
 
 function accelerate(id) {
   return fetch(`${SERVER}/api/races/${id}/accelerate`, {
     method: "POST",
     ...defaultFetchOpts(),
-  });
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log("Problem with accelerate request::", err));
   // POST request to `${SERVER}/api/races/${id}/accelerate`
   // options parameter provided as defaultFetchOpts
   // no body or datatype needed for this request
