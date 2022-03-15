@@ -4,7 +4,10 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-const store = {
+let store = {
+  // you suggested to change it to const
+  // but if I change it to const store
+  // getRace API call throws an error
   track_id: undefined, // updated onclick track card
   player_id: undefined, // updated onclick racer card
   race_id: undefined, // updated in handleCreateRace
