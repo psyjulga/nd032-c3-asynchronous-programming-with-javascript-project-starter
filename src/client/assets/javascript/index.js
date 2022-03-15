@@ -4,7 +4,7 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-var store = {
+const store = {
   track_id: undefined, // updated onclick track card
   player_id: undefined, // updated onclick racer card
   race_id: undefined, // updated in handleCreateRace
@@ -133,39 +133,42 @@ async function delay(ms) {
 // onclick button "start race"
 
 async function handleCreateRace() {
-  // DONE: Get player_id and track_id from the store
-  const playerID = store.player_id;
-  const trackID = store.track_id;
-  // DONE: invoke the API call to create the race, then save the result
-  const race = await createRace(playerID, trackID);
-  console.log("from handleCreateRace => race= ", race);
-  // status = "unstarted"
+  try {
+    // DONE: Get player_id and track_id from the store
+    const playerID = store.player_id;
+    const trackID = store.track_id;
+    // DONE: invoke the API call to create the race, then save the result
+    const race = await createRace(playerID, trackID);
+    console.log("from handleCreateRace => race= ", race);
+    // status = "unstarted"
 
-  // render starting UI
-  renderAt("#race", renderRaceStartView(race.Track));
+    // render starting UI
+    renderAt("#race", renderRaceStartView(race.Track));
 
-  // DONE: update the store with the race id
-  store.race_id = parseInt(race.ID);
-  console.log("from handleCreateRace => store = ", store);
-  // For the API to work properly, the race id should be race id - 1
-  // I put -1 inside the argument of the API calls
+    // DONE: update the store with the race id
+    store.race_id = parseInt(race.ID - 1);
+    console.log("from handleCreateRace => store = ", store);
+    // For the API to work properly, the race id should be race id - 1
 
-  // The race has been created, now start the countdown
-  // DONE: call the async function runCountdown
-  await runCountdown();
+    // The race has been created, now start the countdown
+    // DONE: call the async function runCountdown
+    await runCountdown();
 
-  // 1. createRace => api/races => DONE above
-  // 2. getRace => api/races/{id} => DONE in runRace
-  // 3. startRace => api/races/{id}/start => DONE below
-  // first stratRace ???  yes! only then "in-progress"
+    // 1. createRace => api/races => DONE above
+    // 2. getRace => api/races/{id} => DONE in runRace
+    // 3. startRace => api/races/{id}/start => DONE below
+    // first stratRace ???  yes! only then "in-progress"
 
-  // DONE: call the async function startRace
-  await startRace(store.race_id - 1);
+    // DONE: call the async function startRace
+    await startRace(store.race_id);
 
-  // DONE call the async function runRace
-  await runRace(store.race_id - 1);
-  // until status "finished"
-  console.log("race has ended");
+    // DONE call the async function runRace
+    await runRace(store.race_id);
+    // until status "finished"
+    console.log("race has ended");
+  } catch (e) {
+    console.log("error in handleCreateRace", e);
+  }
 }
 
 async function runRace(raceID) {
@@ -261,9 +264,13 @@ function handleSelectTrack(target) {
 }
 
 async function handleAccelerate() {
-  console.log("accelerate button clicked");
-  // DONE: Invoke the API call to accelerate
-  await accelerate(store.race_id - 1);
+  try {
+    console.log("accelerate button clicked");
+    // DONE: Invoke the API call to accelerate
+    await accelerate(store.race_id);
+  } catch (e) {
+    console.log("error in accelerate", e);
+  }
 }
 
 // HTML VIEWS ------------------------------------------------
@@ -369,7 +376,7 @@ let globalCount = 0;
 
 function raceProgress(positions) {
   console.log("from raceProgress - leaderboard rendering");
-  let userPlayer = positions.find((e) => e.id === store.player_id);
+  const userPlayer = positions.find((e) => e.id === store.player_id);
 
   // to not get "you" repeated every time this function is called
   if (globalCount === 0) {
@@ -389,6 +396,9 @@ function raceProgress(positions) {
 			</tr>
 		`;
   });
+
+  // you suggested that I use .join(' ')
+  // but I can't see any "," in my live leaderboard and results
 
   return `
 		<main>
