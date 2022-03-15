@@ -9,7 +9,7 @@
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
 
@@ -21,14 +21,14 @@ body {
 }
 
 header {
-  background-image: url('https://via.placeholder.com/1150');
+  background-image: url("https://placekitten.com/1150/550");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 }
 
 h1 {

@@ -2,35 +2,35 @@
   "cars": [
     {
       "id": 1,
-      "driver_name": "Racer 1",
+      "driver_name": "Tom",
       "top_speed": 650,
       "acceleration": 8,
       "handling": 7
     },
     {
       "id": 2,
-      "driver_name": "Racer 2",
+      "driver_name": "Sylvester",
       "top_speed": 600,
       "acceleration": 9,
       "handling": 9
     },
     {
       "id": 3,
-      "driver_name": "Racer 3",
+      "driver_name": "Azrael",
       "top_speed": 500,
       "acceleration": 10,
       "handling": 6
     },
     {
       "id": 4,
-      "driver_name": "Racer 4",
+      "driver_name": "Snowball",
       "top_speed": 550,
       "acceleration": 7,
       "handling": 8
     },
     {
       "id": 5,
-      "driver_name": "Racer 5",
+      "driver_name": "Garfield",
       "top_speed": 700,
       "acceleration": 5,
       "handling": 4
@@ -39,7 +39,7 @@
   "tracks": [
     {
       "id": 1,
-      "name": "Track 1",
+      "name": "Mouse Track",
       "segments": [
         87, 47, 29, 31, 78, 25, 80, 76, 60, 14, 61, 12, 29, 58, 44, 81, 65, 47,
         86, 65, 36, 68, 28, 27, 7, 7, 28, 60, 75, 31, 78, 77, 41, 39, 26, 87,

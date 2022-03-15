@@ -2,36 +2,35 @@
 
 /* -------------------  MOBILE  --------------------- */
 header {
-  background-image: url('https://via.placeholder.com/1150');
+  background-image: url("https://placekitten.com/1150/550");
 }
 
 main#two-columns {
-    margin: 50px 0;
-    display: flex;
+  margin: 50px 0;
+  display: flex;
 }
 
 main#two-columns section {
-    max-width: 50vw;
+  max-width: 50vw;
 }
 
 section#accelerate button {
-    height: 300px;
-    width: 300px;
-    margin: 30px auto;
-    border-radius: 180%;
-    background-color: green;
-    border-color: rgb(14, 166, 6);
-    cursor: pointer;
+  height: 300px;
+  width: 300px;
+  margin: 30px auto;
+  border-radius: 180%;
+  background-color: green;
+  border-color: rgb(14, 166, 6);
+  cursor: pointer;
 }
 
 #big-numbers {
-    font-weight: bolder;
-    font-size: 70px;
+  font-weight: bolder;
+  font-size: 70px;
 }
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-
 }
 
 /* -------------------  DESKTOP  -------------------- */
