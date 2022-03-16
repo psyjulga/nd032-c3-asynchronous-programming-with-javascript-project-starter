@@ -4,10 +4,9 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-let store = {
-  // you suggested to change it to const
-  // but if I change it to const store
-  // getRace API call throws an error
+const store = {
+  // const obj => reassigning values possible
+  // but to modify it with Object.create => must be let
   track_id: undefined, // updated onclick track card
   player_id: undefined, // updated onclick racer card
   race_id: undefined, // updated in handleCreateRace
@@ -399,9 +398,6 @@ function raceProgress(positions) {
 			</tr>
 		`;
   });
-
-  // you suggested that I use .join(' ')
-  // but I can't see any "," in my live leaderboard and results
 
   return `
 		<main>
