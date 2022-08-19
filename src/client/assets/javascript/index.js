@@ -1,5 +1,5 @@
 // start BACKEND: ORIGIN_ALLOWED=http://localhost:3000 ./bin/server.exe
-// start FRONTEND: npm start
+// start FRONTEND: npm start => ALSO BACKEND !!!!
 
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
