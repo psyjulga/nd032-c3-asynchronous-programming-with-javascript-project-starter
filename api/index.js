@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 // setup the express assets path
 app.use('/', express.static(path.join(__dirname, '../client')))
 
-// API calls ------------------------------------------------------------------------------------
+// ROUTES ------------------------------------------------------------------------------------
 app.get('/', async (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/pages/index.html'))
 })
@@ -23,3 +23,5 @@ app.get('/race', async (req, res) => {
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+export default app
