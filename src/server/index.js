@@ -10,17 +10,16 @@ const port = 3000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-
 // setup the express assets path
 app.use('/', express.static(path.join(__dirname, '../client')))
 
 // API calls ------------------------------------------------------------------------------------
 app.get('/', async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/pages/home.html'));
+	res.sendFile(path.join(__dirname, '../client/pages/index.html'))
 })
 
 app.get('/race', async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/pages/race.html'));
+	res.sendFile(path.join(__dirname, '../client/pages/race.html'))
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
