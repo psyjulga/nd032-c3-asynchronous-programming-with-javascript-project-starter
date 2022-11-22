@@ -6,7 +6,7 @@ We were given lots of startercode with gaps and comments,
 and it took me some while to track every function back
 and see the whole picture.
 I felt like a private detective following traces, finding
-and creating the	missing pieces and put it all together.
+and creating the missing pieces and put it all together.
 Logic, creativity, perseverance and the principle of
 trial and failure led me to success! 🏁
 ```
